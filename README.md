@@ -4,7 +4,7 @@ Las redes sociales se han convertido en un mecanismo de comunicación y de opini
 
 Teniendo en cuenta lo anterior se platea en este trabajo si: ¿es posible identificar un perfil de opinión político de los candidatos presidenciales a través de la información obtenida de la red social Twitter? 
 
-## OBJETIVO GENERAL 
+## OBJETIVO GENERAL
 Diseñar una herramienta que permita identificar un perfil de opinión de los principales precandidatos a la presidencia de Colombia para el año 2022, a partir de un análisis de aceptación y rechazo por parte de los usuarios de Twitter, utilizando técnicas de procesamiento de lenguaje natural.
 
 ## OBJETIVOS ESPECÍFICOS
