@@ -1,0 +1,2 @@
+# **[Datos Procesados](https://github.com/malejacp4/ProyectoGrado/tree/main/datos/datos_procesados)**:  Contiene los datos con sus repectiva transofmaciones (limpieza, cálculos y agregaciones) requeridos y obtenidos por los diferentes modelos.
+# **[Datos no Procesados](https://github.com/malejacp4/ProyectoGrado/tree/main/datos/datos_sin_procesar)**:  Contiene los datos sin ningún tipo de transformación (como provienen de la fuente orígen)
