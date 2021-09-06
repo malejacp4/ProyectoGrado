@@ -1,4 +1,4 @@
-#Procesamiento de lenguaje natural aplicado al análisis de opinión política en Colombia
+# Procesamiento de lenguaje natural aplicado al análisis de opinión política en Colombia
 ## INTRODUCCIÓN
 Las redes sociales se han convertido en un mecanismo de comunicación y de opinión pública acerca de una gran variedad de temas, de hecho, en el ámbito político los diferentes candidatos a la presidencia de Colombia para el año 2022, han venido aprovechando las redes sociales para comentar o exponer sus ideas frente a diversos temas, a partir de esto los usuarios pueden aceptar o rechazar los diferentes ideales, expresando sus opiniones a través de comentarios, emojis, imágenes o videos.
 
