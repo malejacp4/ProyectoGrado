@@ -15,6 +15,6 @@ Diseñar una herramienta que permita identificar un perfil de opinión de los pr
 - Crear tablero / reporte que permita la visualización de los resultados obtenidos.
 
 ## Carpetas del proyecto
-- **Datos**: Contiene los datos procesados y no procesados utilizados para el análisis de la opinión de los cantidatos presidenciales.
+- **[Datos](https://github.com/malejacp4/ProyectoGrado/tree/main/datos)**: Contiene los datos procesados y no procesados utilizados para el análisis de la opinión de los cantidatos presidenciales.
 - **Despliegue**: Contiene los procesos requeridos para que los dashboards con el analisis esten disponible para su uso.
 - **Documentación**: Contiene los archivos requeridos por la universidad.
