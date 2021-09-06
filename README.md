@@ -13,3 +13,8 @@ Diseñar una herramienta que permita identificar un perfil de opinión de los pr
 - Establecer métricas e indicadores que permitan determinar la aceptación, empatía, rechazo y discordancia de los usuarios de twitter frente a los comentarios realizados por los precandidatos a la presidencia de Colombia.
 - Comparar el rendimiento de los diferentes candidatos de acuerdo a las métricas definidas.
 - Crear tablero / reporte que permita la visualización de los resultados obtenidos.
+
+## Carpetas del proyecto
+- **Datos**: Contiene los datos procesados y no procesados utilizados para el análisis de la opinión de los cantidatos presidenciales.
+- **Despliegue**: Contiene los procesos requeridos para que los dashboards con el analisis esten disponible para su uso.
+- **Documentación**: Contiene los archivos requeridos por la universidad.
