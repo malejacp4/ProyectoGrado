@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title><script
+    src="/voila/static/require.min.js"
+    integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+    crossorigin="anonymous">
+  </script>
+  <!-- voila log js -->
+  <script>
+    const _debug = console.debug;
+    const _info = console.info;
+    const _warn = console.warn;
+    const _error = console.error;
+
+    function post(payload) {
+      try {
+        window.top.postMessage(payload);
+      } catch(err) {
+        window.top.postMessage({ level: "debug", msg: ["[Voilà]:",
+                                                       "Issue cloning object when posting log message, JSON stringify version is:",
+                                                       JSON.stringify(payload)
+                                                       ] });
+      }
+    }
+    console.debug = (...args) => {
+        post({ level: "debug", msg: ["[Voilà]:", ...args] });
+        _debug(...args);
+    };
+
+    console.info = console.info = (...args) => {
+        post({ level: "info", msg: ["[Voilà]:", ...args] });
+        _info(...args);
+    };
+
+    console.warn = (...args) => {
+        post({ level: "warn", msg: ["[Voilà]:", ...args] });
+        _warn(...args);
+    };
+
+    console.error = (...args) => {
+        post({ level: "error", msg: ["[Voilà]:", ...args] });
+        _error(...args);
+    };
+  </script>
+
+
+
+
+
+
+<style type="text/css">
+    pre { line-height: 125%; margin: 0; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: var(--jp-cell-editor-active-background) }
+.highlight { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
+.highlight .c { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment */
+.highlight .err { color: var(--jp-mirror-editor-error-color) } /* Error */
+.highlight .k { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword */
+.highlight .o { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator */
+.highlight .p { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation */
+.highlight .ch { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Single */
+.highlight .cs { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Special */
+.highlight .kc { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Type */
+.highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
+.highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
+.highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
+.highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
+.highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
+.highlight .mh { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Hex */
+.highlight .mi { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer */
+.highlight .mo { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Oct */
+.highlight .sa { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Affix */
+.highlight .sb { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Backtick */
+.highlight .sc { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Char */
+.highlight .dl { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Delimiter */
+.highlight .sd { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Doc */
+.highlight .s2 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Double */
+.highlight .se { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Escape */
+.highlight .sh { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Heredoc */
+.highlight .si { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Interpol */
+.highlight .sx { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Other */
+.highlight .sr { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Regex */
+.highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
+.highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
+.highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
+  </style>
+
+
+
+<link rel="stylesheet" type="text/css" href="/voila/templates/lab/static/index.css?v=2827ebc65132659d74588ecf0ee5d64a033e16085a03856500f5c872ae6486ec7717ea269a3774e64eebf3c146d3c5de866ca702ce39b2a8d3b3b66e55ef4b47">
+
+    <link rel="stylesheet" type="text/css" href="/voila/templates/lab/static/theme-light.css?v=e40c7f8eff6bb3f0d741a1ed9faadde8ec1680faedd8c2ee1e135711a2ddbd5a3a3260109743179f8f09e6107747b266fb4f2ec0f6442b20cb68501922278914">
+
+<style type="text/css">
+a.anchor-link {
+   display: none;
+}
+.highlight  {
+    margin: 0.4em;
+}
+
+/* Input area styling */
+.jp-InputArea {
+    overflow: hidden;
+}
+
+.jp-InputArea-editor {
+    overflow: hidden;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+}
+</style>
+
+
+
+<!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe"> </script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                },
+                "HTML-CSS": {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                }
+            });
+        
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+    <!-- End of mathjax configuration --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@^5/css/all.min.css" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@^5/css/v4-shims.min.css" type="text/css" />
+
+
+  <!-- voila spinner -->
+  <style>
+    #loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 75vh;
+        color: var(--jp-content-font-color1);
+        font-family: sans-serif;
+    }
+
+    .spinner {
+      animation: rotation 2s infinite linear;
+      transform-origin: 50% 50%;
+    }
+
+    .spinner-container {
+      width: 10%;
+    }
+
+    @keyframes rotation {
+      from {transform: rotate(0deg);}
+      to   {transform: rotate(359deg);}
+    }
+
+    .voila-spinner-color1{
+      fill:#268380;
+    }
+
+    .voila-spinner-color2{
+      fill:#f8e14b;
+    }
+  </style>
+
+  <style>
+    /*Hide empty cells*/
+    .jp-mod-noOutputs.jp-mod-noInput {
+      display: none;
+    }
+  </style></head>
+<body class="jp-Notebook theme-light" data-base-url="/voila/">
+
+
+  <div id="loading">
+    <div class="spinner-container">
+      <svg class="spinner" data-name="c1" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title>voila</dc:title></cc:Work></rdf:RDF></metadata><title>spin</title><path class="voila-spinner-color1" d="m250 405c-85.47 0-155-69.53-155-155s69.53-155 155-155 155 69.53 155 155-69.53 155-155 155zm0-275.5a120.5 120.5 0 1 0 120.5 120.5 120.6 120.6 0 0 0-120.5-120.5z"/><path class="voila-spinner-color2" d="m250 405c-85.47 0-155-69.53-155-155a17.26 17.26 0 1 1 34.51 0 120.6 120.6 0 0 0 120.5 120.5 17.26 17.26 0 1 1 0 34.51z"/></svg>
+    </div>
+    <h2 id="loading_text">Running ...</h2>
+  </div>
+
+<script>
+var voila_process = function(cell_index, cell_count) {
+  var el = document.getElementById("loading_text")
+  el.innerHTML = `Executing ${cell_index} of ${cell_count}`
+}
+var voila_heartbeat = function() {
+  console.log('Ok, voila is still executing...')
+}
+</script>
+<div id="rendered_cells" style="display: none"><script id="jupyter-config-data" type="application/json">
+    {
+        "baseUrl": "/",
+        "kernelId": "886c3764-0f15-4f28-ab6b-9e2b85a87906"
+    }
+    </script>
+    
+    <script>
+        voila_process(1, 5)
+      </script>
+        <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
+
+</div><script>
+        voila_process(2, 5)
+      </script>
+        <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output " data-mime-type="text/html">
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+</style>
+</head>
+<body>
+<div style="background-color:rgb(240, 238, 239);" class="box"><img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/Header3.PNG" alt="Italian Trulli"></div>
+<div style="font-size:100%;line-height: 100%;background-color:rgb(42, 49, 58);color:white;font-family: arial" class="box">
+<p><br></p>
+<p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+Resultado del análisis de los tweets que los precandidatos a la presidencia de Colombia han escrito en su red social y la reacción que genera en su entorno
+</p>
+<p><br></p>
+</div>
+</body>
+</html>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><script>
+        voila_process(3, 5)
+      </script>
+        <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output " data-mime-type="text/html">
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+table, th, td {
+  border: 0px solid black;
+  border-collapse: collapse;
+}
+
+body {
+  font-family: Arial;
+}
+table.center {
+  margin-left: auto; 
+  margin-right: auto;
+}
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 900px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: #2980b9;
+  color: white;
+  transform: rotateY(180deg);
+}
+</style>
+</head>
+<body>
+<table class="center" border="1" style="margin: 0 auto;">
+  <tr>
+	<th>
+    	<div class="flip-card">
+  			<div class="flip-card-inner">
+    			<div class="flip-card-front">
+      				<img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/SergioFajardo.jpg" alt="Avatar" style="width:300px;height:300px;">
+    			</div>
+    				<div class="flip-card-back">
+      				<h1>Sergio Fajardo</h1> 
+      				<p>@sergio_fajardo</p> 
+      				<p>Precandidato #CoaliciónCentroEsperanza. Ph.D. en Matemáticas. Excandidato presidencial 2018. Alcalde de Medellín 2004-2007. Gobernador de Antioquia 2012-2015.</p>
+    			</div>
+  			</div>
+		</div>
+	</th>
+	<th>
+    	<div class="flip-card">
+  			<div class="flip-card-inner">
+    			<div class="flip-card-front">
+      				<img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/GustavoPetro.jpg" alt="Avatar" style="width:300px;height:300px;">
+    			</div>
+    				<div class="flip-card-back">
+      				<h1>Gustavo Petro</h1> 
+      				<p>@petrogustavo</p> 
+      				<p>Perfil Oficial del dirigente político progresista colombiano Gustavo Petro. Por una Colombia Humana con justicia social y en Paz.</p>
+    			</div>
+  			</div>
+		</div>
+	</th>
+  </tr>
+</table>
+<table class="center" border="1" style="margin: 0 auto;">
+  <tr>
+	<th>
+    	<div class="flip-card">
+  			<div class="flip-card-inner">
+    			<div class="flip-card-front">
+      				<img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/MariaCabal.jpg" alt="Avatar" style="width:300px;height:300px;">
+    			</div>
+    				<div class="flip-card-back">
+      				<h1>María Fernanda Cabal</h1> 
+      				<p>@MariaFdaCabal</p> 
+      				<p>Senadora de la República de Colombia #LasCosasComoSon</p>
+    			</div>
+  			</div>
+		</div>
+	</th>
+	<th>
+    	<div class="flip-card">
+  			<div class="flip-card-inner">
+    			<div class="flip-card-front">
+      				<img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/OscarZuluaga.jpg" alt="Avatar" style="width:300px;height:300px;">
+    			</div>
+    				<div class="flip-card-back">
+      				<h1>Óscar Iván Zuluaga</h1> 
+      				<p>@OIZuluaga</p> 
+      				<p>47 millones de motivos para trabajar por #UnaColombiaDistinta Bíceps flexionadoBandera de Colombia.</p>
+    			</div>
+  			</div>
+		</div>
+	</th>
+	<th>
+    	<div class="flip-card">
+  			<div class="flip-card-inner">
+    			<div class="flip-card-front">
+      				<img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/RodolfoHernandez.jpg" alt="Avatar" style="width:300px;height:300px;">
+    			</div>
+    				<div class="flip-card-back">
+      				<h1>Ing Rodolfo Hernandez</h1> 
+      				<p>@ingrodolfohdez</p> 
+      				<p>Empresario Fundador @hgconstructora y @LigaGobernantes Ex Alcalde de Bucaramanga Bandera de Colombia Viejito pero sabroso Cara sonriente con lentes de sol #IngRodolfo</p>
+    			</div>
+  			</div>
+		</div>
+	</th> 
+  </tr>
+</table>
+<p><br></p>
+</body>
+</html>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><script>
+        voila_process(4, 5)
+      </script>
+        <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output " data-mime-type="text/html">
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 30px;
+  border: none;
+}
+
+.dropup {
+  position: relative;
+  display: inline-block;
+}
+
+.dropup-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  bottom: 50px;
+  z-index: 1;
+  text-align: left;
+}
+
+.dropup-content a {
+  color: grey;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropup-content a:hover {background-color: white}
+
+.dropup:hover .dropup-content {
+  display: block;
+}
+
+.dropup:hover .dropbtn {
+  background-color: #2980B9;
+}
+
+.dropbtn2 {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 30px;
+  border: none;
+}
+
+.dropop {
+  position: relative;
+  display: inline-block;
+}
+
+.dropop-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 990px;
+  bottom: 10px;
+  z-index: 1;
+  text-align: left;
+}
+
+.dropop-content a {
+  color: grey;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropop-content a:hover {background-color: white}
+
+.dropop:hover .dropop-content {
+  display: block;
+}
+
+.dropop:hover .dropbtn2 {
+  background-color: #2980B9;
+}
+
+table, th, td {
+  border: 0px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #008CBA;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'info_general')">Información General</button>
+  <button class="tablinks" onclick="openCity(event, 'relacion')">Relación de los usuarios que siguen</button>
+  <button class="tablinks" onclick="openCity(event, 'lluvia')">Palabras más utilizadas</button>
+  <button class="tablinks" onclick="openCity(event, 'top')">Top de palabras lematizadas</button>
+  <button class="tablinks" onclick="openCity(event, 'correlacion')">Correlación entre palabras comunes</button>
+  <button class="tablinks" onclick="openCity(event, 'sentimientos')">Sentimientos de los tweets</button>
+
+</div>
+
+
+<div id="info_general" class="tabcontent">
+    <p><br></p>
+    <p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+        A continuación se especifica la cantidad de seguidores y el número de usuarios que sigue cada precandidato, dando una idea del alcance que podría tener el discurso al realizar campaña a través de Twitter: 
+    </p>
+    <p><br></p>
+    <table style="font-size:150%;color:white;width:100%;font-family: calibri"><tr><th style="width:47%;border-radius:30px;background-color:rgb(42, 49, 58)"> <center>Cantidad de seguidores<center></th><th style="width:1%"></th><th style="width:50%;border-radius:30px;background-color:rgb(42, 49, 58)"><center>Cantidad de usuarios que siguen<center></th></tr></table>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/cantidad_seguidores.html" frameborder="0" scrolling="no" width="50%" height="500" align="left" style="border:none"></iframe>
+    <iframe src="http://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/usuarios_que_siguen.html" frameborder="0" scrolling="no" width="50%" height="500" align="right"></iframe>
+    <div class="dropop">
+      <button class="dropbtn2">+</button>
+      <div class="dropop-content">
+        <a>
+            Se puede observar que no hay una relación directa en todos los casos entre la cantidad de seguidores y la cantidad de usuarios que los precandidatos siguen, ejemplo: Sergio Fajardo al ser el segundo en cantidad de seguidores,él no sigue a usuarios en esa misma proporción, pudiendo asumir que en twitter él trata de consumir información de una red de usuarios más cerrada.        </a>
+    </div>
+    </div>  
+</div>
+
+<div id="relacion" class="tabcontent">
+    <p><br></p>
+    <p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+        A continuación a través de grafos se observa la relación de los usuarios comunes que siguen los precandidatos: 
+    </p>
+    <p><br></p>
+  
+    <table style="font-size:150%;color:white;width:100%;font-family: calibri"><tr><th style="width:47%;border-radius:30px;background-color:rgb(42, 49, 58)"> <center> Usuarios comunes que siguen<center></th><th style="width:1%"></th><th style="width:50%;border-radius:30px;background-color:rgb(42, 49, 58)"><center>Usuarios importantes comunes que siguen<center></th></tr></table>
+    <p><br></p>
+    <div style="background-color:white;" class="box">
+        <center><img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/convencion_grafos.png" width="50%" height="100"></center>
+    </div>    
+        <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/grafo_candidatos.html" frameborder="0" scrolling="no" width="50%" height="800" align="left" style="border:none"></iframe>
+        <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/grafo_candidatos2.html" frameborder="0" scrolling="no" width="50%" height="800" align="right"></iframe>  
+
+    <div>
+        <table style="width:100%">
+          <tr>
+            <th></th>
+          </tr>
+        </table>
+    </div>          
+    <div class="dropop">
+      <button class="dropbtn2">+</button>
+      <div class="dropop-content">
+        <a>Se observa un distanciamiento entre los usuarios que sigue María Fernanda Cabal y los que sigue Sergio Fajardo; identificando adicionalmente la conformación de dos grupos a nivel de los usuarios que ellos siguen; el primer grupo esta conformado por: Sergio Fajardo, Gustavo Petro y Rodolfo Hernandez; y el segundo grupo por: María Fernanda Cabal y Oscar Ivan Zuluaga.</a>
+        <a>Adicionalmente entre los usuarios con mayor número de seguidores que los precandidatos siguen, se observa que los precandidatos siguen en gran medida a usuarios inmersos en la política y medios de comunicación.</a>
+    </div>
+    </div>
+</div>
+
+<div id="lluvia" class="tabcontent">
+    <p><br></p>
+    <p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+        En el discurso de cada precandidato se pueden identificar palabras que normalmente utilizan para expresar sus ideas, de este modo se presenta las palabras mayormente utilizadas:
+    </p>
+    <p><br></p>
+<table border="1" style="margin: 0 auto;" >
+  <tr>
+    <th style="font-size:200%;color:white;width:auto;border-radius:30px;background-color:rgb(42, 49, 58);font-family: calibri"> 
+    	<center>Gustavo Petro</center>
+    </th> 
+    <th style="font-size:200%;color:white;width:auto;border-radius:30px;background-color:rgb(42, 49, 58);font-family: calibri"> 
+    	<center>Sergio Fajardo</center>
+    </th>
+ <tr style="background-color:#ffffff">
+    <th> 
+    <div class="container">
+  <img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/petro_palabras.png" alt="Avatar" class="image" style="width:300px;height:300px;"> 
+  <div class="overlay">
+    <div class="text">De 71.721 palabras utilizadas en los tweets, se reutilizan un total de 54.692, es decir el 76.3%</div>
+  </div>
+</div>
+    </th>
+    <th><div class="container">
+  <img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/fajardo_palabras.png" alt="Avatar" class="image" style="width:300px;height:300px;">
+  <div class="overlay">
+    <div class="text">De 10,474 palabras utilizadas en los tweets, se reutilizan un total de 5,961 , es decir el 56.9%</div>
+  </div>
+</div></th> 
+ </tr>
+</table>
+<table border="1" style="margin: 0 auto;" >
+  <tr>
+    <th style="font-size:200%;color:white;width:auto;border-radius:30px;background-color:rgb(42, 49, 58);font-family: calibri"> 
+    	<center>María Fernanda Cabal</center>
+    </th> 
+    <th style="font-size:200%;color:white;width:auto;border-radius:30px;background-color:rgb(42, 49, 58);font-family: calibri"> 
+    	<center>Óscar Iván Zuluaga</center>
+    </th>
+    <th style="font-size:200%;color:white;width:auto;border-radius:30px;background-color:rgb(42, 49, 58);font-family: calibri"> 
+    	<center>Rodolfo Hernandez</center>
+    </th>
+ <tr style="background-color:#ffffff">
+    <th> 
+    <div class="container">
+      <img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/cabal_palabras.png" alt="Avatar" class="image" style="width:300px;height:300px;"> 
+      <div class="overlay">
+        <div class="text">De 26,512 palabras utilizadas en los tweets, se reutilizan un total de 17,400 , es decir el 65.6%</div>
+      </div>
+    </div>
+    </th>
+    <th>
+    <div class="container">
+      <img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/zuluaga_palabras.png" alt="Avatar" class="image" style="width:300px;height:300px;">
+      <div class="overlay">
+        <div class="text">De 3,521 palabras utilizadas en los tweets, se reutilizan un total de 1,753 , es decir el 49.8%</div>
+      </div>
+    </div>
+    </th>
+    <th>
+    <div class="container">
+      <img src="https://raw.githubusercontent.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/rodolfo_palabras.png" alt="Avatar" class="image" style="width:300px;height:300px;">
+      <div class="overlay">
+        <div class="text">De 3,149 palabras utilizadas en los tweets, se reutilizan un total de 1,521 , es decir el 48.3%</div>
+      </div>
+    </div>
+    </th>
+ </tr>
+</table>
+
+</div>
+<div id="top" class="tabcontent">
+    <p><br></p>
+    <p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+        Lematización es un proceso que consiste en identificar el lema o raíz de una palabra, esto facilita la agrupación y  conteo de palabras de un texto. En las siguientes gráficas se representan las palabras lematizadas más utilizadas por los precandidatos en sus discursos:
+    </p>
+    <p><br></p>
+    <table style="font-size:150%;color:white;width:100%;font-family: calibri"><tr><th style="width:47%;border-radius:30px;background-color:rgb(42, 49, 58)"> <center>Sergio Fajardo<center></th><th style="width:1%"></th><th style="width:50%;border-radius:30px;background-color:rgb(42, 49, 58)"><center>Gustavo Petro<center></th></tr></table>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/petro_palabras.html" frameborder="0" scrolling="no" width="50%" height="350" align="right" ></iframe>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/fajardo_palabras.html" frameborder="0" scrolling="no" width="50%" height="350" align="right"></iframe>
+    <table style="font-size:150%;color:white;width:100%;font-family: calibri"><tr><th style="width:33%;border-radius:30px;background-color:rgb(42, 49, 58)"> <center>Óscar Iván Zuluaga<center></th><th style="width:33%;border-radius:30px;background-color:rgb(42, 49, 58)"><center>Rodolfo Hernandez<center></th><th style="width:33%;border-radius:30px;background-color:rgb(42, 49, 58)"><center>María Fernanda Cabal<center></th></tr></table>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/zuluaga_palabras.html" frameborder="0" scrolling="no" width="33%" height="350" align="left"></iframe>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/cabal_palabras.html" frameborder="0" scrolling="no" width="33%" height="350" align="right"></iframe>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/rodolfo_palabras.html" frameborder="0" scrolling="no" width="33%" height="350" align="right"></iframe> 
+</div>
+
+<div id="correlacion" class="tabcontent">
+    <p><br></p>
+    <p style="margin-left: 20px;line-height:124%;font-size:150%;margin-right:20px;text-align: center">
+        A través de las siguientes gráficas se observa la correlación entre las palabras que normalmente utilizan los precandidatos en sus tweets:
+    </p>
+    <p><br></p>
+    <table style="font-size:150%;color:white;width:100%;font-family: calibri"><tr><th style="width:100%;border-radius:1px;background-color:rgb(42, 49, 58)"><center>Correlación entre las palabras comunes de los precandidatos<center></th></tr></table>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/correlacion.html" frameborder="0" scrolling="no" width="50%" height="500" align="left" style="border:none"></iframe>
+    <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/relacion_usuarios.html" frameborder="0" scrolling="no" width="50%" height="500" align="right"></iframe> 
+    <div class="dropop">
+      <button class="dropbtn2">+</button>
+      <div class="dropop-content">
+        <a>
+        Normalmente las palabras utilizadas por Gustavo Petro tienen mayor relación con las palabras que utiliza María Fernanda Cabal y Sergio Fajardo
+        </a>
+    </div>
+    </div>
+</div>
+
+<div id="sentimientos" class="tabcontent">
+  <ul class="nav nav-pills">
+    <li><a data-toggle="pill" href="#menu1">María Fernanda Cabal</a></li>
+    <li><a data-toggle="pill" href="#menu2">Gustavo Petro</a></li>
+    <li><a data-toggle="pill" href="#menu3">Rodolfo Hernández</a></li>
+    <li><a data-toggle="pill" href="#menu4">Sergio Fajardo</a></li>
+    <li><a data-toggle="pill" href="#menu5">Óscar Iván Zuluaga</a></li>
+  </ul>    
+<div class="tab-content">
+    <div id="menu1" class="tab-pane fade">
+        <table style="margin-left:20px">
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 1</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left">
+                    " ¿Quién lo patrocina? MIGUEL POLO POLO @MiguelPoloP · 28 may. 2021 Luisito me cae bien, pero si viene a hacer ver a los del bloqueo como unos justicieros sociales, cuando son unos bandidos que violan los derechos a la libre circulación, trabajo y salud de la ciudadanía, mejor que se regrese a Mexico. Suficiente tenemos con las ONG de Izquierda."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 2.100 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el  57.9% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>    
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/smc1.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>        
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 2</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left">
+                    "#PlenariaSenado ¿Quién eligió al Comité del Paro? ¿Qué legitimidad tienen unos sindicalistas que hasta su propia elección es cuestionada?. Ellos deben ser judicializados por los niños muertos"
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>El comentario generó 9.100 likes y las respuestas a este comentario obtenidas a través del bot, el 51.1% fueron positivas o neutrales, lo cual da a entender una aceptación frente a este tweet.</a>
+                </div>
+                </div>      
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/smc2.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 3</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Llevamos 23 días de comunismo. Carne al 150% más cara, transporte en camión, no hay gas para cocinar, hay crisis de gobernabilidad. Una pequeña muestra que nos regalan los que nunca han trabajado y anhelan una Venezuela en Colombia."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 2.900 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot,  el 74.5% fueron negativas, lo cual da a entender un rechazo frente a este tweet</a>
+                </div>
+                </div>             
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/smc3.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+        </table>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+        <table style="margin-left:20px">
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 1</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Y si hacemos en Bogotá una marcha de un millón de personas. ¿se le miden? En completa paz, con todos y todas las artistas, con todo el arte y la cultura con alegría, sin violencias de ningún tipo, con una sola voz que le pida a Duque: Democracia y Paz."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>El comentario generó 13.500 likes y las respuestas a este comentario obtenidas a través del bot, el 51.1% fueron positivas o neutrales, lo cual da a entender una aceptación frente a este tweet</a>
+                </div>
+                </div>    
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/sgp1.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>        
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 2</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Debemos afirmar hoy sin dudas, que Colombia Humana ganó las elecciones presidenciales del 2018. El resultado de Duque está manchado por el fraude de la compra masiva de votos con dineros del narcotráfico."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 10.300 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 61.1% fueron negativas, lo cual da a entender un rechazo frente a este tweet</a>
+                </div>
+                </div>      
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/sgp2.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 3</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Les propongo ganar la presidencia de la República en primera vuelta para cambiar de verdad a Colombia hacia la Paz, el Trabajo y la Democracia."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>El comentario generó 10.200 likes y las respuestas a este comentario obtenidas a través del bot, el 57.9% fueron positivas o neutrales, lo cual da a entender una aceptación frente a este tweet.</a>
+                </div>
+                </div>             
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/sgp3.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+        </table>
+    </div>    
+    <div id="menu3" class="tab-pane fade">
+        <table style="margin-left:20px">
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 1</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "SOBRE LA FINANCIACIÓN DE LA CAMPAÑA: EL AUDIO NUNCA SE FILTRÓ"
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 232 likes se puede observar que de las 185 respuestas a este comentario el 60.4% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>    
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/srh1.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>        
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 2</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "#RodolfoHernandezSuperaAPetro"
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 262 like se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 51.8% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>      
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/srh2.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 3</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    AlAire🔴 con @WRadioColombia “Frente a lo de Hitler pido mil disculpas, cualquiera tiene un lapsus y me equivoqué. La frase no era de él, era de Einstein. Pido mil disculpas a la comunidad judía y a todo el pueblo Colombiano”.
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 452 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 55% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>             
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/srh3.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+        </table>
+    </div>
+    <div id="menu4" class="tab-pane fade">
+        <table style="margin-left:20px">
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 1</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Si llego a ser el presidente, lo primero que haría es un 'Gran Pacto Nacional por la Educación'. Colombia le ha apostado a la guerra, pero es momento de apostarle a la educación, que vincule el empleo, el desarrollo rural, la tecnología, la innovación y el cuidado ambiental."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 1.400 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 68.5% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>    
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/ssf1.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>        
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 2</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Con Gustavo Petro no voy a participar en una consulta. Tiene una forma que no comparto de tratar al que es diferente. No podemos permitir que nos dividan en dos bandos. #FajardoResponde"
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 3.100 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 73.6% fueron negativas, lo cual da a entender un rechazo frente a este tweet</a>
+                </div>
+                </div>      
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/ssf2.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 3</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "Como es natural, yo no comparto la posición de que el Gobierno es ilegítimo, de que ganó Petro, o llamar a la desobediencia social. Eso es un adefesio. #FrancamenteFajardo"
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>SAunque el comentario generó 1.700 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 68.9% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>             
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/ssf3.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+        </table>
+    </div>
+    <div id="menu5" class="tab-pane fade">
+        <table style="margin-left:20px">
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 1</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left">
+                    "El tema de la corrupción es central ¡La sociedad está hastiada! Y por eso yo planteo que el gran acuerdo que tenemos que hacer es el de la reforma a la política y a la justicia, que no tramitaremos a través del Congreso sino por medio de un referendo."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 1.400 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 71.4% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>    
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/soz1.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>        
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 2</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left"> 
+                    "¿Cómo vamos a acabar el 4x1000, que es un impuesto que afecta los costos de la pequeña y mediana empresa? He dicho reiterativamente que debemos recuperar la visión de un Estado austero y con el ahorro de ese gasto burocrático, podemos financiar el desmonte de ese impuesto."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 332 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 68.1% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>      
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/soz2.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:20%;background-color: white">
+                <h1 style="margin-left: 20px;text-align: justify">Tweet 3</h1>
+                <p style="margin-left: 20px;font-size:120%;text-align: left">
+                    "Debemos unir varios sectores afines en valores e ideas, el propósito es Colombia: que a nuestro país no le ocurra lo que está pasando en Perú, que no caigamos en populismo de izquierda o en socialismo que restringe libertades."
+                </p>
+                <div class="dropup">
+                  <button class="dropbtn">+</button>
+                  <div class="dropup-content">
+                    <a>Aunque el comentario generó 560 likes se puede observar que de las respuestas  a este comentario obtenidas a través del bot, el 71.4% fueron negativas, lo cual da a entender un rechazo frente a este tweet.</a>
+                </div>
+                </div>             
+            </td>
+            <td style="width:80%;background-color: white">
+                <iframe src="https://rawcdn.githack.com/malejacp4/ProyectoGrado/main/datos/datos_procesados/soz3.html"frameborder="0" scrolling="no" width="100%" height="400" align="left"></iframe>
+            </td>
+          </tr>
+        </table>
+    </div>
+</div>
+</div>
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+<div><br><br><br><br><br></div>   
+</body>
+</html>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><script>
+        voila_process(5, 5)
+      </script>
+        <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output " data-mime-type="text/html">
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+table, th, td {
+  border: 0px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #008CBA;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+</style>
+</head>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div></div>
+<script type="text/javascript">
+  (function() {
+    // remove the loading element
+    var el = document.getElementById("loading")
+    el.parentNode.removeChild(el)
+    // show the cell output
+    el = document.getElementById("rendered_cells")
+    el.style.display = 'unset'
+  })();
+</script>
+<script>
+  requirejs.config({ baseUrl: '/voila/', waitSeconds: 30});
+  window.voila_js_url = "/voila/templates/lab/static/voila.js?v=7bd473184d96bb801a79c00c9268efef0fbd3a6f03cb9b0889be3db8225dd4281151995ac5ee643ed2489fdf5a79162f3a67a9e5f674e2117b85fdd672f0d3c5";
+  requirejs(["/voila/templates/lab/static/main.js?v=07cc494763c3dcb3b604da7aa291ed361b8b163d9cb33c4bc3a66304c18e1dc5bfcf8c6101b6b6426ab36762a01a8568e9f3bf0c7ba6588cd61eab538b95e34a"]);
+
+  // Loading classic notebook extensions.
+  
+</script>
+
+</body>
+
+
+
+</html>
