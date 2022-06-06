@@ -10,7 +10,7 @@ Diseñar una herramienta que permita identificar un perfil de opinión de los pr
 ## OBJETIVOS ESPECÍFICOS
 - Crear un corpus para el almacenamiento y procesamiento de los datos recolectados a través de las red social de twitter.
 - Construir un proceso que permita la recopilación, procesamiento y visualización del análisis de los tweets de cada precandidato.
-- Establecer métricas e indicadores que permitan determinar que tan negativo, positivo o neutro reaccionan los usuarios de Twitter frente a los comentarios realizados    por los precandidatos a la presidencia de Colombia.
+- Identificar y medir indicadores que permitan determinar que tan negativo, positivo o neutro reaccionan los usuarios de Twitter frente a los comentarios realizados por los precandidatos a la presidencia de Colombia.
 - Comparar el rendimiento de los diferentes candidatos de acuerdo a las métricas definidas.
 - Crear tablero / reporte que permita la visualización de los resultados obtenidos.
 
